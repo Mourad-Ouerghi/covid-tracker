@@ -1,0 +1,23 @@
+#navbar a:hover{
+    color: green;
+}
+#logo{
+    border-color: green;
+}
+img{
+    width: 50px;
+    height: 50px;
+}
+.flexContainer{
+    display: flex;
+    justify-content: center;
+}
+.stats{
+    background-color: rgba(69, 119, 69, 0.774);
+    border-radius: 5px;
+    padding: 2em;
+    color: whitesmoke;
+}
+.flex-item-1{
+    margin-top: 25px;
+}
