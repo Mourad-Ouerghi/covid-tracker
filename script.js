@@ -41,9 +41,12 @@ function searchCountry(e)
             }
         if(found)
         {
-            /*countryLink="#"+searchValue;
-            document.getElementById('modalButton').setAttribute('href',countryLink);*/
+            let p=document.createElement('p');
+            p.innerHTML='For more details check the table below';
+            p.style.color="black";
+            p.style.fontWeight="bold";
             showFewDetails("modal-container",data,"random-country",searchValue);
+            document.getElementById("pContainer").appendChild(p);
         }
         else
         {
@@ -56,6 +59,133 @@ function searchCountry(e)
         searchClicked=true;
     })
 }
+let buttonChecked=0;
+let buttonUnchecked=0;
+//let worldTableNotSorted=document.getElementById('wTable');
+document.getElementById('checkboxButton').addEventListener('click',sortTable);
+function sortTable()
+{
+    if(buttonChecked==buttonUnchecked)
+    buttonChecked++;
+    else if(buttonUnchecked<buttonChecked)
+    buttonUnchecked++;
+
+    if(buttonChecked>buttonUnchecked)
+    {
+        document.getElementById('wTable').remove();
+        
+        data.then(
+            
+            (covidData)=>{
+                let output=`<table id="wTable" class="table table-bordered table-hover text-center table-dark table-striped">
+                <tr>
+                <th>countries</th>
+                <th>Cases</th>
+                <th>Today Cases</th>
+                <th>Deaths</th>
+                <th>Today Deaths</th>
+                <th>Recovered</th>
+                <th>Today Recovered</th>
+                <th>Active</th>
+                <th>Critical</th>
+                <th>Tested</th>
+                <th>Population</th>
+                </tr>
+                        `
+                covidData.sort((element1,element2)=>{
+                return element2.cases-element1.cases;
+                })
+                covidData.forEach((element)=>
+                {
+                    let textColors=assignTextColors(element.todayCases,element.todayDeaths,element.todayRecovered);
+                    output+=`
+                    <tr>
+                        <td id="${element.country}">${element.country}<br>
+                        <img src="https://www.countryflags.io/${element.countryInfo.iso2}/shiny/64.png"></td>
+                        <td>${element.cases}</td>
+                        <td style=${textColors["casesTextColor"]}>${element.todayCases}</td>
+                        <td>${element.deaths}</td>
+                        <td style=${textColors["deathsTextColor"]}>${element.todayDeaths}</td>
+                        <td>${element.recovered}</td>
+                        <td style=${textColors["recoveredTextColor"]}>${element.todayRecovered}</td>
+                        <td>${element.active}</td>
+                        <td>${element.critical}</td>
+                        <td>${element.tests}</td>
+                        <td>${element.population}</td>
+                    </tr>
+                    `
+                })
+                output+='</table>';
+                document.getElementById('tableContainer').innerHTML=output;
+            }
+        )
+    }
+    else if(buttonChecked==buttonUnchecked)
+    {
+        console.log('unchecked');
+        document.getElementById('wTable').remove();
+        //let worldTable=document.getElementById('wTable')
+        data.then((covidData)=>{
+            let output=`<table id="wTable" class="table table-bordered table-hover text-center table-dark table-striped">
+                <tr>
+                <th>countries</th>
+                <th>Cases</th>
+                <th>Today Cases</th>
+                <th>Deaths</th>
+                <th>Today Deaths</th>
+                <th>Recovered</th>
+                <th>Today Recovered</th>
+                <th>Active</th>
+                <th>Critical</th>
+                <th>Tested</th>
+                <th>Population</th>
+                </tr>
+            `
+            covidData.forEach(element => {
+                let textColors=assignTextColors(element.todayCases,element.todayDeaths,element.todayRecovered);
+                output+=`
+                <tr>
+                    <td id="${element.country}">${element.country}<br>
+                    <img src="https://www.countryflags.io/${element.countryInfo.iso2}/shiny/64.png"></td>
+                    <td>${element.cases}</td>
+                    <td style=${textColors["casesTextColor"]}>${element.todayCases}</td>
+                    <td>${element.deaths}</td>
+                    <td style=${textColors["deathsTextColor"]}>${element.todayDeaths}</td>
+                    <td>${element.recovered}</td>
+                    <td style=${textColors["recoveredTextColor"]}>${element.todayRecovered}</td>
+                    <td>${element.active}</td>
+                    <td>${element.critical}</td>
+                    <td>${element.tests}</td>
+                    <td>${element.population}</td>
+                </tr>
+                `
+            });
+            output+='</table>'
+            document.getElementById('tableContainer').innerHTML=output;
+        
+        })
+    }
+}
+
+//colors assignment
+function assignTextColors(tCases,tDeaths,tRecovered)
+{
+    let textColors={"casesTextColor":"color:","deathsTextColor":"color:","recoveredTextColor":"color:"};
+    if(tCases>0)
+    textColors["casesTextColor"]+="red";
+    else
+    textColors["casesTextColor"]+="green";
+
+    if(tDeaths>0)
+    textColors["deathsTextColor"]+="red";
+    else
+    textColors["deathsTextColor"]+="green";
+
+    if(tRecovered>0)
+    textColors["recoveredTextColor"]+="green";
+
+    return textColors
+}
 
 function showFewDetails(divId,donnees,tableId,country)
 {
@@ -64,19 +194,20 @@ function showFewDetails(divId,donnees,tableId,country)
         covidData.forEach(element => {
             if (element.country.toLowerCase()==country.toLowerCase())
             {
+                let textColors=assignTextColors(element.todayCases,element.todayDeaths,element.todayRecovered);
                 output+=`
                 <tr>
-                    <th>
+                    <th style=${textColors["casesTextColor"]}>
                         +${element.todayCases}<br>
                         Cases
                     </th>
-                    <th>
+                    <th style=${textColors["deathsTextColor"]}>
                         +${element.todayDeaths}<br>
                         Deaths
                     </th>
                 </tr>
                 <tr>
-                    <th>
+                    <th style=${textColors["recoveredTextColor"]}>
                         +${element.todayRecovered}<br>
                         Recovered
                     </th>
@@ -122,17 +253,19 @@ function displayElementDetails(country,donnees,divId)
     covidData.forEach(element => {
         if (element.country==country)
         {
+            let textColors=assignTextColors(element.todayCases,element.todayDeaths,element.todayRecovered);
+
             output+=`
             <tr>
-                <th>
+                <th style=${textColors["casesTextColor"]}>
                     +${element.todayCases}<br>
                     Cases
                 </th>
-                <th>
+                <th style=${textColors["deathsTextColor"]}>
                     +${element.todayDeaths}<br>
                     Deaths
                 </th>
-                <th>
+                <th style=${textColors["recoveredTextColor"]}>
                     +${element.todayRecovered}<br>
                     Recovered
                     
@@ -181,41 +314,47 @@ function addDetails()
 }
 
 //the world stats table 
-data.then((covidData)=>{
-    let output=`<table id="wTable" class="table table-bordered table-hover text-center table-dark table-striped">
-        <tr>
-        <th>countries</th>
-        <th>Cases</th>
-        <th>Today Cases</th>
-        <th>Deaths</th>
-        <th>Today Deaths</th>
-        <th>Recovered</th>
-        <th>Today Recovered</th>
-        <th>Active</th>
-        <th>Critical</th>
-        <th>Tested</th>
-        <th>Population</th>
-        </tr>
-    `
-    covidData.forEach(element => {
-        output+=`
-        <tr>
-            <td id="${element.country}">${element.country}<br>
-            <img src="https://www.countryflags.io/${element.countryInfo.iso2}/shiny/64.png"></td>
-            <td>${element.cases}</td>
-            <td>${element.todayCases}</td>
-            <td>${element.deaths}</td>
-            <td>${element.todayDeaths}</td>
-            <td>${element.recovered}</td>
-            <td>${element.todayRecovered}</td>
-            <td>${element.active}</td>
-            <td>${element.critical}</td>
-            <td>${element.tests}</td>
-            <td>${element.population}</td>
-        </tr>
+function diplayWorldTableNotSorted()
+{
+    data.then((covidData)=>{
+        let output=`<table id="wTable" class="table table-bordered table-hover text-center table-dark table-striped">
+            <tr>
+            <th>countries</th>
+            <th>Cases</th>
+            <th>Today Cases</th>
+            <th>Deaths</th>
+            <th>Today Deaths</th>
+            <th>Recovered</th>
+            <th>Today Recovered</th>
+            <th>Active</th>
+            <th>Critical</th>
+            <th>Tested</th>
+            <th>Population</th>
+            </tr>
         `
+        covidData.forEach(element => {
+            let textColors=assignTextColors(element.todayCases,element.todayDeaths,element.todayRecovered);
+            output+=`
+            <tr>
+                <td id="${element.country}">${element.country}<br>
+                <img src="https://www.countryflags.io/${element.countryInfo.iso2}/shiny/64.png"></td>
+                <td>${element.cases}</td>
+                <td style=${textColors["casesTextColor"]}>${element.todayCases}</td>
+                <td>${element.deaths}</td>
+                <td style=${textColors["deathsTextColor"]}>${element.todayDeaths}</td>
+                <td>${element.recovered}</td>
+                <td style=${textColors["recoveredTextColor"]}>${element.todayRecovered}</td>
+                <td>${element.active}</td>
+                <td>${element.critical}</td>
+                <td>${element.tests}</td>
+                <td>${element.population}</td>
+            </tr>
+            `
+        });
+        output+='</table>'
+        document.getElementById('tableContainer').innerHTML=output;
+    
     });
-    output+='</table>'
-    document.getElementById('tableContainer').innerHTML=output;
-
-});
+}
+if(buttonChecked==0 && buttonUnchecked==0)
+diplayWorldTableNotSorted();

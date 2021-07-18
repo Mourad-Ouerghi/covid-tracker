@@ -14,7 +14,7 @@ img{
     justify-content: center;
 }
 .stats{
-    background-color: rgba(69, 119, 69, 0.774);
+    background-color: rgba(87, 231, 87, 0.774);
     border-radius: 5px;
     padding: 2em;
     color: whitesmoke;
@@ -33,4 +33,42 @@ img{
 }
 #cardContainer{
     margin-top: 35px;
+}
+
+#checkboxButton
+{
+    position: relative;
+    left: 80%;
+}
+input[type="checkbox"]
+{
+    position: relative;
+    width: 80px;
+    height: 40px;
+    -webkit-appearance: none;
+    background:#c6c6c6;
+    outline: none;
+    border-radius: 20px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,.2);
+    /*transition: .5s;*/
+
+}
+input:checked[type="checkbox"]{
+    background-color:rgba(87, 231, 87, 0.774) ;
+}
+input[type="checkbox"]::before{
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    top:0;
+    left: 0;
+    background: #fff;
+    transform: scale(1.1);
+    box-shadow:0 2px 5px rgba(0,0,0,.2);
+    transition: .5s;
+}
+input:checked[type="checkbox"]:before{
+ left:40px ;
 }
