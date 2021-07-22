@@ -1,8 +1,8 @@
 #navbar a:hover{
-    color: green;
+    color: rgba(87, 231, 87, 0.774);
 }
 #logo{
-    border-color: green;
+    border-color: rgba(87, 231, 87, 0.774);
 }
 
 img{
@@ -15,60 +15,28 @@ img{
 }
 .stats{
     background-color: rgba(87, 231, 87, 0.774);
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 2em;
     color: whitesmoke;
 }
 .flex-item-1{
-    margin-top: 25px;
+    margin-top: 15%;
 }
-/*#tunisiaSection{
-    margin-top: 30px;
-}*/
-#tnTable{
-    color: whitesmoke;
-}
+
+
 #random-country{
     color: black;
 }
 #cardContainer{
-    margin-top: 35px;
+    margin-top: 40px;
 }
-
-#checkboxButton
-{
-    position: relative;
-    left: 80%;
+h4 ,h5{
+    color: white;
 }
-input[type="checkbox"]
-{
-    position: relative;
-    width: 80px;
-    height: 40px;
-    -webkit-appearance: none;
-    background:#c6c6c6;
-    outline: none;
-    border-radius: 20px;
-    box-shadow: inset 0 0 5px rgba(0,0,0,.2);
-    /*transition: .5s;*/
-
-}
-input:checked[type="checkbox"]{
+footer{
     background-color:rgba(87, 231, 87, 0.774) ;
 }
-input[type="checkbox"]::before{
-    content: '';
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
-    top:0;
-    left: 0;
-    background: #fff;
-    transform: scale(1.1);
-    box-shadow:0 2px 5px rgba(0,0,0,.2);
-    transition: .5s;
-}
-input:checked[type="checkbox"]:before{
- left:40px ;
+a {
+    text-decoration: none;
+    color: black;
 }
