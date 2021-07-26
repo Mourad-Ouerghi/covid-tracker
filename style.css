@@ -36,7 +36,12 @@ h4 ,h5{
 footer{
     background-color:rgba(87, 231, 87, 0.774) ;
 }
-a {
+.links{
     text-decoration: none;
-    color: black;
+    color: white;
+    margin: 5px;
+    font-weight: bold;
+}
+.links:hover{
+    color: rgb(41, 40, 40);
 }
