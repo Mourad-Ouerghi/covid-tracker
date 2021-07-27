@@ -372,14 +372,30 @@ continentData.then((covidData)=>{
                 },
               },
               
+                titleTextStyle: {
+                    color: '#ffffff'
+                }
+              
+              ,
               backgroundColor: {
                 fill: '#212529',
                 fillOpacity: 0.8
               },
               
-              colorAxis: {colors: ['#50C878', '#228B22', '#023020']},
-              hAxis: {title: 'Deaths Rate'},
-              vAxis: {title: 'Recovering rate'},
+              colorAxis: {
+                  colors: ['#50C878', '#228B22', '#023020'],
+                  legend:{
+                    textStyle:{color:'#ffffff'}
+                  }
+                },
+              hAxis: {
+                    title: 'Deaths Rate',
+                    textStyle:{color:'#ffffff'}
+                },
+              vAxis: {
+                  title: 'Recovering rate',
+                  textStyle:{color:'#ffffff'}
+                },
               bubble: {
                 textStyle: {
                   auraColor: 'none',
